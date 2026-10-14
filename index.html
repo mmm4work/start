@@ -76,6 +76,7 @@ strong,b{font-weight:700}
   display:grid;place-items:center;color:var(--ink);transition:border-color var(--t-fast),transform var(--t-fast)}
 .nav button:hover{border-color:var(--accent);transform:translateY(-1px)}
 .nav button:disabled{opacity:.35;pointer-events:none}
+.nav [data-home-nav]{margin-right:6px}
 .dots{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);display:flex;gap:6px;z-index:20}
 .dots button{width:8px;height:8px;border-radius:4px;background:var(--line);transition:all var(--t-fast) var(--ease);padding:0}
 .dots button.on{width:24px;background:var(--accent)}
@@ -683,6 +684,7 @@ strong,b{font-weight:700}
 <div class="hint" aria-hidden="true">листайте <span class="k">→</span></div>
 <div class="dots" role="navigation" aria-label="Экраны"></div>
 <div class="nav">
+  <button type="button" data-home-nav aria-label="В начало" title="В начало"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9h13v-9"/><path d="M10 19v-5h4v5"/></svg></button>
   <button type="button" data-prev aria-label="Назад"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
   <button type="button" data-next aria-label="Вперёд"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
 </div>
@@ -1047,6 +1049,7 @@ strong,b{font-weight:700}
   const dots = document.querySelector('.dots');
   const prevBtn = document.querySelector('.nav [data-prev]');
   const nextBtn = document.querySelector('.nav [data-next]');
+  const homeBtn = document.querySelector('.nav [data-home-nav]');
   const hint = document.querySelector('.hint');
   slides.forEach((s, i) => {
     const b = document.createElement('button');
@@ -1081,6 +1084,7 @@ strong,b{font-weight:700}
     Array.from(dots.children).forEach((b, i) => b.classList.toggle('on', i === n));
     prevBtn.disabled = n === 0;
     nextBtn.disabled = n === total - 1;
+    if (homeBtn) homeBtn.disabled = n === 0;
     if (hint) hint.classList.toggle('hide', n > 0);
     const first = !seen.has(n);
     seen.add(n);
@@ -1094,6 +1098,7 @@ strong,b{font-weight:700}
   // ── Кнопки, хэш, клавиатура ──────────────────────
   prevBtn.addEventListener('click', prev);
   nextBtn.addEventListener('click', next);
+  if (homeBtn) homeBtn.addEventListener('click', () => go(0, 'from-left'));
   window.addEventListener('hashchange', () => go(idxFromHash()));
   document.addEventListener('keydown', (e) => {
     if (e.defaultPrevented) return;
