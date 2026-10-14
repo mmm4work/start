@@ -348,6 +348,13 @@ strong,b{font-weight:700}
 .js.landing .top a:hover{color:var(--accent-deep)}
 .js.landing .top .brand{font-weight:700;color:var(--ink);letter-spacing:-.01em}
 
+/* ── Кнопка-название слева сверху (режим листания) ── */
+.brand-btn{display:none}
+.js:not(.landing):not(.print) .brand-btn{display:inline-flex;position:fixed;top:12px;left:var(--pad-x);z-index:20;align-items:center;gap:8px;padding:8px 14px 8px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.9);font-size:14px;font-weight:700;letter-spacing:-.01em;color:var(--ink);transition:border-color var(--t-fast),transform var(--t-fast),box-shadow var(--t-fast)}
+.js:not(.landing):not(.print) .brand-btn:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--grad)}
+.js:not(.landing):not(.print) .brand-btn:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow)}
+@media (max-width:640px){.js:not(.landing):not(.print) .brand-btn{left:16px;top:10px;font-size:13px;padding:7px 12px 7px 9px}}
+
 </style>
 </head>
 <body>
@@ -356,6 +363,7 @@ strong,b{font-weight:700}
 
 <p class="no-js-note">Режим просмотра без интерактива: экраны идут подряд, листайте вниз. Для живой версии откройте файл в браузере.</p>
 <div class="top"><span class="brand">ИИ для вашего бизнеса</span><a href="#plan">К плану</a></div>
+<button type="button" class="brand-btn" data-home-top aria-label="К началу">ИИ для вашего бизнеса</button>
 <main class="deck">
 
 <!-- S01 Титул -->
@@ -975,6 +983,7 @@ strong,b{font-weight:700}
   const ask = $('[data-ask]'); if (ask) ask.addEventListener('click', () => window.deck.go(9));
   const make = $('[data-make]'); if (make) make.addEventListener('click', () => { const p = $('[data-plan]'); p.classList.toggle('on'); });
   const back = $('[data-home]'); if (back) back.addEventListener('click', () => window.deck.go(0));
+  const brand = $('[data-home-top]'); if (brand) brand.addEventListener('click', () => window.deck.go(0));
 
   // ── 3D-сцены: запуск только на активном экране ──
   if (!isPrint) $$('canvas[data-scene]').forEach((c) => {
